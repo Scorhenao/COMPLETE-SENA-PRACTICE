@@ -1,6 +1,6 @@
-const express = require("express"); //Requiriendo express
+const express = require("express");
 const faker = require("faker");
-const router = express.Router(); //Creando router con constructor express
+const router = express.Router();
 
 router.get("/", (req, res) => {
   const prods = [];
