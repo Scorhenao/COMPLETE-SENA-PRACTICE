@@ -25,6 +25,35 @@ router.get("/:id", (req, res) => {
   });
 });
 
+router.post("/", (req, res) => {
+  const body = req.body;
+  res.json({
+    status: 201,
+    data: body,
+    message: "product created successfully",
+  });
+});
+
+router.patch("/:id", (req, res) => {
+  const { id } = req.params;
+  const body = req.body;
+  res.json({
+    id,
+    status: 206,
+    data: body,
+    message: "product updated partial successfully",
+  });
+});
+
+router.delete("/:id", (req, res) => {
+  const { id } = req.params;
+  res.json({
+    id,
+    status: 204,
+    message: "product deleted successfully",
+  });
+});
+
 router.get("/filter", (req, res) => {
   res.send("This is a filter");
 });
