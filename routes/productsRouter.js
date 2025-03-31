@@ -18,16 +18,22 @@ router.get("/", (req, res) => {
 
 router.get("/:id", (req, res) => {
   const { id } = req.params;
-  res.json({
-    id,
-    name: faker.commerce.productName(),
-    price: faker.commerce.price(),
-  });
+  if (id === 999) {
+    res.status(404).json({
+      message: "not found",
+    });
+  } else {
+    res.status(200).json({
+      id,
+      name: faker.commerce.productName(),
+      price: faker.commerce.price(),
+    });
+  }
 });
 
 router.post("/", (req, res) => {
   const body = req.body;
-  res.json({
+  res.status(201).json({
     status: 201,
     data: body,
     message: "product created successfully",
@@ -37,7 +43,7 @@ router.post("/", (req, res) => {
 router.patch("/:id", (req, res) => {
   const { id } = req.params;
   const body = req.body;
-  res.json({
+  res.status(206).json({
     id,
     status: 206,
     data: body,
@@ -47,7 +53,7 @@ router.patch("/:id", (req, res) => {
 
 router.delete("/:id", (req, res) => {
   const { id } = req.params;
-  res.json({
+  res.status(204).json({
     id,
     status: 204,
     message: "product deleted successfully",
