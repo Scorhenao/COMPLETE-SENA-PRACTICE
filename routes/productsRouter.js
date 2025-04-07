@@ -18,9 +18,10 @@ router.get("/:id", (req, res) => {
 
 router.post("/", (req, res) => {
   const body = req.body;
+  const newProduct = service.create(body);
   res.status(201).json({
     status: 201,
-    data: body,
+    data: newProduct,
     message: "product created successfully",
   });
 });
@@ -28,19 +29,22 @@ router.post("/", (req, res) => {
 router.patch("/:id", (req, res) => {
   const { id } = req.params;
   const body = req.body;
-  res.status(206).json({
+  const product = service.update(id, body);
+  res.status(200).json({
     id,
-    status: 206,
-    data: body,
-    message: "product updated partial successfully",
+    status: 200,
+    data: product,
+    message: "product updated successfully",
   });
 });
 
 router.delete("/:id", (req, res) => {
   const { id } = req.params;
-  res.status(204).json({
+  const response = service.delete(id);
+  res.status(200).json({
     id,
-    status: 204,
+    status: 200,
+    data: response,
     message: "product deleted successfully",
   });
 });
