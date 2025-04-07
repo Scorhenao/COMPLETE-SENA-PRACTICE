@@ -5,48 +5,76 @@ const router = express.Router();
 
 const service = new ProductsService();
 
-router.get("/", (req, res) => {
-  const products = service.find();
+router.get("/", async (req, res) => {
+  const products = await service.find();
   res.json(products);
 });
 
-router.get("/:id", (req, res) => {
-  const { id } = req.params;
-  const product = service.findOne(id);
-  res.json(product);
+router.get("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await service.findOne(id);
+    res.json(product);
+  } catch (err) {
+    res.status(404).json({
+      status: 404,
+      message: err.message,
+    });
+  }
 });
 
-router.post("/", (req, res) => {
-  const body = req.body;
-  const newProduct = service.create(body);
-  res.status(201).json({
-    status: 201,
-    data: newProduct,
-    message: "product created successfully",
-  });
+router.post("/", async (req, res) => {
+  try {
+    const body = req.body;
+    const newProduct = await service.create(body);
+    res.status(201).json({
+      status: 201,
+      data: newProduct,
+      message: "product created successfully",
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 400,
+      message: err.message,
+    });
+  }
 });
 
-router.patch("/:id", (req, res) => {
-  const { id } = req.params;
-  const body = req.body;
-  const product = service.update(id, body);
-  res.status(200).json({
-    id,
-    status: 200,
-    data: product,
-    message: "product updated successfully",
-  });
+router.patch("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const body = req.body;
+    const product = await service.update(id, body);
+    res.status(200).json({
+      id,
+      status: 200,
+      data: product,
+      message: "product updated successfully",
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 404,
+      message: err.message,
+    });
+  }
 });
 
-router.delete("/:id", (req, res) => {
-  const { id } = req.params;
-  const response = service.delete(id);
-  res.status(200).json({
-    id,
-    status: 200,
-    data: response,
-    message: "product deleted successfully",
-  });
+router.delete("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const response = await service.delete(id);
+    res.status(200).json({
+      id,
+      status: 200,
+      data: response,
+      message: "product deleted successfully",
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 404,
+      message: err.message,
+    });
+  }
 });
 
 router.get("/filter", (req, res) => {
