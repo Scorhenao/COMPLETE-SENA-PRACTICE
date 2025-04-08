@@ -1,3 +1,4 @@
+const boom = require("@hapi/boom");
 const faker = require("faker");
 class ProductsService {
   constructor() {
@@ -16,12 +17,16 @@ class ProductsService {
     return this.products;
   }
   async findOne(id) {
-    return this.products.find((product) => product.id === id);
+    const product = this.products.find((item) => item.id === id);
+    if (!product) {
+      throw boom.notFound("product not found");
+    }
+    return product;
   }
   async update(id, changes) {
     const index = this.products.findIndex((item) => item.id === id);
     if (index === -1) {
-      throw new Error("product not found");
+      throw boom.notFound("product not found");
     }
 
     const product = this.products[index];
@@ -34,7 +39,7 @@ class ProductsService {
   async delete(id) {
     const index = this.products.findIndex((item) => item.id === id);
     if (index === -1) {
-      throw new Error("product not found");
+      throw boom.notFound("product not found");
     }
     this.products.splice(index, 1);
     return { id };

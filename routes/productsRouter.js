@@ -3,6 +3,7 @@ const faker = require("faker");
 const ProductsService = require("../services/productsService");
 const router = express.Router();
 
+
 const service = new ProductsService();
 
 router.get("/", async (req, res) => {
@@ -52,6 +53,7 @@ router.patch("/:id", async (req, res) => {
       message: "product updated successfully",
     });
   } catch (err) {
+    next(err);
     res.status(404).json({
       status: 404,
       message: err.message,
